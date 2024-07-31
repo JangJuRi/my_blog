@@ -2,6 +2,7 @@ import datetime
 
 from django.shortcuts import render, redirect
 from board.models import Board, User
+from django.utils import timezone
 
 def board_list(request):
     try:
@@ -46,6 +47,7 @@ def board_save(request):
             title=title,
             subTitle=subTitle,
             content=content,
+            modifyDate=timezone.now()
         )
 
         return redirect(f"/board/{boardId}")

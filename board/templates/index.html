@@ -73,7 +73,7 @@
                         <p class="post-meta">
                             Posted by
                             <a href="#!">{{ board.user.name }}</a>
-                            on {{ board.modifyDate }}
+                            on {{ board.modifyDate | date:'Y-m-d H:i' }}
                         </p>
                     </div>
                     <!-- Divider-->
