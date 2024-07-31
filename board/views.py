@@ -2,7 +2,10 @@ from django.shortcuts import render
 from board.models import Board
 
 def board_list(request):
-    boards = Board.objects.all()
+    try:
+        boards = Board.objects.filter(title__contains=request.POST.get('searchTitle'))
+    except:
+        boards = Board.objects.all()
 
     context = {
         "boards": boards
