@@ -42,12 +42,13 @@ def board_save(request):
 
     try:
         boardId = request.POST["boardId"]
-        Board.objects.get(id=boardId).update(
+        Board.objects.filter(id=boardId).update(
             title=title,
             subTitle=subTitle,
             content=content,
-            modifyDate=datetime.timezone
         )
+
+        return redirect(f"/board/{boardId}")
     except:
         user = User.objects.get(id=1)
         board = Board.objects.create(

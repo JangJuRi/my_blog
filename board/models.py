@@ -10,7 +10,7 @@ class Board(models.Model):
     content = models.CharField(max_length=4000, null=True)
     views = models.IntegerField(default=0)
     registDate = models.DateTimeField(auto_now_add=True)
-    modifyDate = models.DateTimeField(auto_now_add=True)
+    modifyDate = models.DateTimeField(auto_now=True)
     user = models.ForeignKey (
         User, verbose_name="등록자", on_delete=models.CASCADE, null=True
     )
