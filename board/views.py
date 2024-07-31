@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import render, redirect
 from board.models import Board, User
 
@@ -22,12 +24,32 @@ def board_detail(request, board_id):
     return render(request, "detail.html", context)
 
 def board_write(request):
-    if request.method == 'POST':
-        title = request.POST["title"]
-        subTitle = request.POST["subTitle"]
-        content = request.POST["content"]
-        user = User.objects.get(id=1)
+    try:
+        board = Board.objects.get(id=request.POST["boardId"])
+        context = {
+            "board": board
+        }
 
+        return render(request, "write.html", context)
+
+    except:
+        return render(request, "write.html")
+
+def board_save(request):
+    title = request.POST["title"]
+    subTitle = request.POST["subTitle"]
+    content = request.POST["content"]
+
+    try:
+        boardId = request.POST["boardId"]
+        Board.objects.get(id=boardId).update(
+            title=title,
+            subTitle=subTitle,
+            content=content,
+            modifyDate=datetime.timezone
+        )
+    except:
+        user = User.objects.get(id=1)
         board = Board.objects.create(
             title=title,
             subTitle=subTitle,
@@ -36,5 +58,3 @@ def board_write(request):
         )
 
         return redirect(f"/board/{board.id}")
-    else:
-        return render(request, "write.html")
