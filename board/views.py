@@ -5,9 +5,9 @@ from board.models import Board, User
 
 def board_list(request):
     try:
-        boards = Board.objects.filter(title__contains=request.POST.get('searchTitle'))
+        boards = Board.objects.filter(title__contains=request.POST.get('searchTitle')).order_by("-id")
     except:
-        boards = Board.objects.all()
+        boards = Board.objects.all().order_by("-id")
 
     context = {
         "boards": boards
