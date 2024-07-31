@@ -10796,3 +10796,27 @@ header.masthead .post-heading .meta a {
     font-size: 2.25rem;
   }
 }
+
+.h1-input {
+    font-size: 3.5rem;
+    background-color: transparent;
+    color: white;
+    border: white 1px dashed;
+    font-weight: 800;
+    line-height: 1.2;
+}
+.h2-input {
+    font-size: 1.875rem;
+    background-color: transparent;
+    color: white;
+    border: white 1px dashed;
+    font-weight: 600;
+}
+.write-textarea {
+    width: 100%;
+    resize: none;
+    border: black 1px dashed;
+}
+.no-outline:focus {
+    outline: none;
+}
