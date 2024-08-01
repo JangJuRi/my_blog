@@ -36,7 +36,7 @@
             </div>
         </nav>
         <!-- Page Header-->
-        <form method="post" action="/save/">
+        <form method="post" action="/board/save/">
             {% csrf_token %}
             <input type="hidden" id="boardId" name="boardId" value="{{ board.id }}">
             <header class="masthead" style="background-image: url('assets/img/post-bg.jpg')">

@@ -16,12 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from board.views import board_list, board_detail, board_write, board_save
+from board.views import board_list, board_detail, board_write, save_board, remove_board
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', board_list),
     path('board/<int:board_id>/', board_detail),
-    path('write/', board_write),
-    path('save/', board_save),
+    path('board/write/', board_write),
+    path('board/save/', save_board),
+    path('board/remove/<int:board_id>/', remove_board),
 ]

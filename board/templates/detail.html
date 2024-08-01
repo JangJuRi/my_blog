@@ -62,10 +62,11 @@
                     </div>
                 </div>
                 <div class="d-flex flex-row-reverse">
-                    <form method="post" action="/write/">
+                    <form method="post" action="/board/write/">
                         {% csrf_token %}
                         <input type="hidden" id="boardId" name="boardId" value="{{ board.id }}">
                         <button type="submit" class="btn btn-secondary">수정</button>
+                        <button type="button" class="btn btn-danger" onclick="location.href='/board/remove/{{ board.id }}'">삭제</button>
                     </form>
                 </div>
             </div>

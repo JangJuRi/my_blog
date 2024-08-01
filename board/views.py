@@ -36,7 +36,7 @@ def board_write(request):
     except:
         return render(request, "write.html")
 
-def board_save(request):
+def save_board(request):
     title = request.POST["title"]
     subTitle = request.POST["subTitle"]
     content = request.POST["content"]
@@ -61,3 +61,9 @@ def board_save(request):
         )
 
         return redirect(f"/board/{board.id}")
+
+def remove_board(request, board_id):
+    board = Board.objects.get(id=board_id)
+    board.delete();
+
+    return redirect("/")
