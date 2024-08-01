@@ -10805,6 +10805,17 @@ header.masthead .post-heading .meta a {
     font-weight: 800;
     line-height: 1.2;
 }
+.h1-input::placeholder, .h2-input::placeholder {
+ 	color: white;
+}
+
+.h1-input::-webkit-input-placeholder, .h2-input::-webkit-input-placeholder{
+ 	color: white;
+}
+
+.h1-input:-ms-input-placeholder, .h2-input::-ms-input-placeholder{
+ 	color: white;
+}
 .h2-input {
     font-size: 1.875rem;
     background-color: transparent;
