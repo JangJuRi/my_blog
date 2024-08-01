@@ -1,17 +1,25 @@
 import datetime
 
 from django.shortcuts import render, redirect
-from board.models import Board, User
 from django.utils import timezone
+from django.core.paginator import Paginator
+from board.models import Board, User
 
 def board_list(request):
-    try:
-        boards = Board.objects.filter(title__contains=request.POST.get('searchTitle')).order_by("-id")
-    except:
+    search_title = request.GET.get('searchTitle')
+    page_count = 3
+
+    if search_title is not None:
+        boards = Board.objects.filter(title__contains=search_title).order_by("-id")
+    else:
         boards = Board.objects.all().order_by("-id")
 
+    paginator = Paginator(boards, page_count)
+    page = request.GET.get('page', 1)
+    paginated_boards = paginator.get_page(page)
+
     context = {
-        "boards": boards
+        "boards": paginated_boards
     }
 
     return render(request, "index.html", context)

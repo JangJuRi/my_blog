@@ -50,40 +50,56 @@
         </header>
         <!-- Main Content-->
         <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <form method="post" action="/">
-                    {% csrf_token %}
+            <form method="get" action="/">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="row mb-3 justify-content-center">
                         <div class="col-8">
                             <input type="text" id="searchTitle" name="searchTitle" class="form-control">
                         </div>
                         <div class="col-2">
-                            <button type="submit" class="btn btn-outline-secondary" style="padding: 0 10px; height:100%" onclick="">검색</button>
+                            <button type="submit" class="btn btn-outline-secondary" onclick="location.href='?searchTitle={{ request.GET.searchTitle }}'" style="padding: 0 10px; height:100%">검색</button>
                         </div>
                     </div>
-                </form>
-                <div class="col-md-10 col-lg-8 col-xl-7">
-                    {% for board in boards %}
-                    <!-- Post preview-->
-                    <div class="post-preview">
-                        <a href="/board/{{ board.id }}">
-                            <h2 class="post-title">{{ board.title }}</h2>
-                            <h3 class="post-subtitle">{{ board.subTitle }}</h3>
-                        </a>
-                        <p class="post-meta">
-                            Posted by
-                            <a href="#!">{{ board.user.name }}</a>
-                            on {{ board.modifyDate | date:'Y-m-d H:i' }}
-                        </p>
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        {% for board in boards %}
+                        <!-- Post preview-->
+                        <div class="post-preview">
+                            <a href="/board/{{ board.id }}">
+                                <h2 class="post-title">{{ board.title }}</h2>
+                                <h3 class="post-subtitle">{{ board.subTitle }}</h3>
+                            </a>
+                            <p class="post-meta">
+                                Posted by
+                                <a href="#!">{{ board.user.name }}</a>
+                                on {{ board.modifyDate | date:'Y-m-d H:i' }}
+                            </p>
+                        </div>
+                        <!-- Divider-->
+                        <hr class="my-4" />
+                        <!-- Post preview-->
+                        {% endfor %}
+                        <!-- Pager-->
+                        <div class="d-flex justify-content-end mb-4"><a class="btn btn-outline-secondary" href="board/write/">등록 →</a></div>
                     </div>
-                    <!-- Divider-->
-                    <hr class="my-4" />
-                    <!-- Post preview-->
-                    {% endfor %}
-                    <!-- Pager-->
-                    <div class="d-flex justify-content-end mb-4"><a class="btn btn-outline-secondary" href="board/write/">등록 →</a></div>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center pagination-lg">
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1&searchTitle={{ request.GET.searchTitle }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            {% for num in boards.paginator.page_range %}
+                            <li class="page-item"><a class="page-link" href="?page={{ num }}&searchTitle={{ request.GET.searchTitle }}">{{ num }}</a></li>
+                            {% endfor %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ boards.paginator.num_pages }}&searchTitle={{ request.GET.searchTitle }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
-            </div>
+            </form>
         </div>
         <!-- Footer-->
         <footer class="border-top">
