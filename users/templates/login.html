@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<body>
+    <header class="masthead" style="background-image: url({% static 'assets/img/cloud.jpg' %})">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="input-group mb-3 input-group-lg">
+                                <span class="input-group-text">아이디</span>
+                                {{form.accountId}}
+                            </div>
+                            <div class="input-group mb-3 input-group-lg">
+                                <span class="input-group-text">비밀번호</span>
+                                {{form.password}}
+                            </div>
+
+                            <button type="submit" class="btn btn-light">로그인</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+</body>
+{% endblock%}
