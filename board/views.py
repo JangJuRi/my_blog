@@ -3,7 +3,8 @@ import datetime
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.core.paginator import Paginator
-from board.models import Board, User
+from board.models import Board
+from users.models import User
 
 def board_list(request):
     search_title = request.GET.get('searchTitle')

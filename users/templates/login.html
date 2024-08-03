@@ -11,12 +11,31 @@
                             {% csrf_token %}
                             <div class="input-group mb-3 input-group-lg">
                                 <span class="input-group-text">아이디</span>
-                                {{form.accountId}}
+                                {{form.username}}
                             </div>
                             <div class="input-group mb-3 input-group-lg">
                                 <span class="input-group-text">비밀번호</span>
                                 {{form.password}}
                             </div>
+
+                            {% if form.username.errors %}
+                            <div>
+                                <ul>
+                                    {% for error in form.username.errors %}
+                                    <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% endif %}
+                            {% if form.password.errors %}
+                            <div>
+                                <ul>
+                                    {% for error in form.password.errors %}
+                                    <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% endif %}
 
                             <button type="submit" class="btn btn-light">로그인</button>
                         </form>
