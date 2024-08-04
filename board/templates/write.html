@@ -59,10 +59,8 @@
         };
 
         function setTextareaHeight () {
-            const $target = event.target;
-
-            $target.style.height = 0;
-            $target.style.height = DEFAULT_HEIGHT + $target.scrollHeight + 'px';
+            $textarea.style.height = 0;
+            $textarea.style.height = DEFAULT_HEIGHT + $textarea.scrollHeight + 'px';
         }
         <!-- // 내용 길이에 맞춰 textarea 높이 변경 -->
 
