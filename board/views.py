@@ -48,6 +48,7 @@ def board_write(request):
         return render(request, "write.html")
 
 def save_board(request):
+    board_id = request.POST["boardId"]
     form = AddBoardForm(request.POST, request.FILES)
 
     if form.is_valid():
@@ -56,9 +57,8 @@ def save_board(request):
         content = form.cleaned_data["content"]
         thumbnail_image = form.cleaned_data["thumbnail_image"]
 
-        try:
-            boardId = request.POST["boardId"]
-            Board.objects.filter(id=boardId).update(
+        if board_id:
+            Board.objects.filter(id=board_id).update(
                 title=title,
                 subTitle=subTitle,
                 content=content,
@@ -66,8 +66,14 @@ def save_board(request):
                 modifyDate=timezone.now()
             )
 
-            return redirect(f"/board/{boardId}")
-        except:
+            # 이걸 해야 이미지 저장이 되는데 왜 이렇게 해야되는진 모르겠음..
+            board = Board.objects.get(id=board_id)
+            board.thumbnail_image = thumbnail_image
+            board.save()
+
+
+            return redirect(f"/board/{board_id}")
+        else:
             board = Board.objects.create(
                 title=title,
                 subTitle=subTitle,
