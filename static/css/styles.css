@@ -2095,7 +2095,7 @@ progress {
 }
 
 .form-control-lg {
-  min-height: calc(1.5em + 1rem + 2px);
+  min-height: calc(2em + 1rem + 5px);
   padding: 0.5rem 1rem;
   font-size: 1.25rem;
 }
@@ -4092,6 +4092,7 @@ textarea.form-control-lg {
   background-color: var(--bs-card-bg);
   background-clip: border-box;
   border: var(--bs-card-border-width) solid var(--bs-card-border-color);
+  border-radius: 20px
 }
 .card > hr {
   margin-right: 0;
@@ -4177,6 +4178,10 @@ textarea.form-control-lg {
 .card-img-top,
 .card-img-bottom {
   width: 100%;
+}
+
+.card > img {
+    border-radius: 20px 20px 0px 0px
 }
 
 .card-img-top {
@@ -10690,7 +10695,7 @@ header.masthead:before {
   right: 0;
   bottom: 0;
   background-color: #212529;
-  opacity: 0.5;
+  opacity: 0.3;
 }
 header.masthead .page-heading,
 header.masthead .post-heading,
@@ -10812,14 +10817,17 @@ header.masthead .post-heading .meta a {
 }
 .h1-input::placeholder, .h2-input::placeholder {
  	color: white;
+ 	opacity: 0.4;
 }
 
 .h1-input::-webkit-input-placeholder, .h2-input::-webkit-input-placeholder{
  	color: white;
+ 	opacity: 0.4;
 }
 
 .h1-input:-ms-input-placeholder, .h2-input::-ms-input-placeholder{
  	color: white;
+ 	opacity: 0.4;
 }
 .h2-input {
     font-size: 1.875rem;

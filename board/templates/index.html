@@ -2,30 +2,22 @@
 {% load static %}
 {% block content %}
 <!-- Page Header-->
+<form method="get" action="/">
 <header class="masthead" style="background-image: url({% static 'assets/img/cloud.jpg' %})">
     <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
-            <div class="col-md-10 col-lg-8 col-xl-7">
-                <div class="site-heading">
-                    <h1>게시판 만들기</h1>
-                    <span class="subheading">jrjang</span>
-                </div>
+            <div class="col-8">
+                <input type="text" id="searchTitle" name="searchTitle" class="form-control form-control-lg shadow-lg rounded" placeholder="게시글 제목을 입력하세요.">
+            </div>
+            <div class="col-2">
+                <button type="submit" class="btn btn-outline-light py-3 px-4" onclick="location.href='?searchTitle={{ request.GET.searchTitle }}'">검색</button>
             </div>
         </div>
     </div>
 </header>
 <!-- Main Content-->
 <div class="container px-4 px-lg-5">
-    <form method="get" action="/">
         <div class="row gx-4 gx-lg-5 justify-content-center">
-            <div class="row mb-3 justify-content-center">
-                <div class="col-8">
-                    <input type="text" id="searchTitle" name="searchTitle" class="form-control">
-                </div>
-                <div class="col-2">
-                    <button type="submit" class="btn btn-outline-secondary" onclick="location.href='?searchTitle={{ request.GET.searchTitle }}'" style="padding: 0 10px; height:100%">검색</button>
-                </div>
-            </div>
             <div class="row row-cols-1 row-cols-md-3 g-4">
                 {% for board in boards %}
                 <div class="col">
@@ -45,8 +37,8 @@
                 {% endfor %}
                 <!-- Pager-->
             </div>
-            <div class="d-flex justify-content-end mb-4 mt-2">
-                <a class="btn btn-outline-secondary" href="board/write/">등록 →</a>
+            <div class="d-flex justify-content-end mb-4 mt-4">
+                <a class="btn btn-outline-secondary rounded" href="board/write/">등록</a>
             </div>
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center pagination-lg">
@@ -66,6 +58,6 @@
                 </ul>
             </nav>
         </div>
-    </form>
 </div>
+</form>
 {% endblock%}

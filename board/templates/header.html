@@ -11,14 +11,12 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto py-4 py-lg-0">
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/">Home</a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="about.html">About</a></li>
-                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="contact.html">Contact</a></li>
                     {% if user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4">{{ request.user.nickname }}님</a></li>
-                        <li class="nav-item"><button class="btn btn-light btn-sm" onclick="location.href='/logout'">로그아웃</button></li>
+                        <li class="nav-item"><button class="btn btn-light btn-sm mt-3" onclick="location.href='/logout'">로그아웃</button></li>
                     {% else %}
-                        <li class="nav-item"><button class="btn btn-light btn-sm mx-1" onclick="location.href='/login'">로그인</button></li>
-                        <li class="nav-item"><button class="btn btn-light btn-sm" onclick="location.href='/signup'">회원가입</button></li>
+                        <li class="nav-item"><button class="btn btn-light btn-sm mt-3 me-1" onclick="location.href='/login'">로그인</button></li>
+                        <li class="nav-item"><button class="btn btn-light btn-sm mt-3" onclick="location.href='/signup'">회원가입</button></li>
                     {% endif %}
                 </ul>
             </div>

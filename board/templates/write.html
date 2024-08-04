@@ -6,25 +6,28 @@
     <form method="post" enctype="multipart/form-data" action="/board/save/">
         {% csrf_token %}
         <input type="hidden" id="boardId" name="boardId" value="{{ board.id }}">
-        <header class="masthead" style="background-image: url({% static 'assets/img/cloud.jpg' %})">
+        {% if board.id %}
+        <header id="masthead" class="masthead" style="background-image: url({{ board.thumbnail_image.url }});">
+        {% else %}
+        <header id="masthead" class="masthead" style="background-image: url({% static 'assets/img/cloud.jpg' %});">
+        {% endif %}
             <div class="container position-relative px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
                         <div class="post-heading">
                             <div class="row mb-3">
-                                <input type="text" id="title" name="title" value="{{ board.title }}" class="h1-input mb-1 no-outline" placeholder="타이틀을 입력해주세요"/>
-                                <input type="text" id="subTitle" name="subTitle" value="{{ board.subTitle }}" class="h2-input no-outline" placeholder="서브타이틀을 입력해주세요"/>
+                                <input type="text" id="title" name="title" value="{{ board.title }}" class="h1-input mb-1 no-outline notClick" placeholder="타이틀을 입력해주세요"/>
+                                <input type="text" id="subTitle" name="subTitle" value="{{ board.subTitle }}" class="h2-input no-outline notClick" placeholder="서브타이틀을 입력해주세요"/>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="position-absolute bottom-0 w-100 d-flex justify-content-end p-3">
+                <button type="button" class="btn btn-outline-light" id="background-button">배경 바꾸기</button>
+            </div>
         </header>
         <!-- Post Content-->
-        <div>
-            <label for="thumbnail_image">썸네일</label>
-            <input type="file" id="thumbnail_image" name="thumbnail_image">
-        </div>
         <article class="mb-4">
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -32,6 +35,7 @@
                         <textarea id="content" name="content" class="write-textarea no-outline" placeholder="내용을 입력해주세요">{{ board.content }}</textarea>
                     </div>
                 </div>
+                <input type="file" onchange="readURL(this)" id="thumbnail_image" name="thumbnail_image" style="display:none;">
                 <div class="d-flex flex-row-reverse">
                     <button type="submit" class="btn btn-secondary">저장</button>
                 </div>
@@ -40,16 +44,44 @@
     </form>
 
     <script type="text/javascript">
+        <!-- 내용 길이에 맞춰 textarea 높이 변경 -->
         const DEFAULT_HEIGHT = 30; // textarea 기본 height
 
         const $textarea = document.querySelector('#content');
+        const $backgroundButton = document.querySelector('#background-button');
+
+        window.onload = function(){
+            setTextareaHeight();
+        }
 
         $textarea.oninput = (event) => {
-          const $target = event.target;
-
-          $target.style.height = 0;
-          $target.style.height = DEFAULT_HEIGHT + $target.scrollHeight + 'px';
+          setTextareaHeight();
         };
+
+        function setTextareaHeight () {
+            const $target = event.target;
+
+            $target.style.height = 0;
+            $target.style.height = DEFAULT_HEIGHT + $target.scrollHeight + 'px';
+        }
+        <!-- // 내용 길이에 맞춰 textarea 높이 변경 -->
+
+        <!-- 썸네일 변경 -->
+        $backgroundButton.onclick = (event) => {
+            document.querySelector('[id=thumbnail_image]').click();
+        };
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const masthead = document.getElementById('masthead');
+                    masthead.style.backgroundImage = `url(${reader.result})`;
+                };
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        }
+        <!-- // 썸네일 변경 -->
     </script>
 </body>
 {% endblock%}

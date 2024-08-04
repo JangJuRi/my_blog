@@ -10,7 +10,7 @@ from users.models import User
 
 def board_list(request):
     search_title = request.GET.get('searchTitle')
-    page_count = 3
+    page_count = 6
 
     if search_title is not None:
         boards = Board.objects.filter(title__contains=search_title).order_by("-id")
@@ -62,15 +62,13 @@ def save_board(request):
                 title=title,
                 subTitle=subTitle,
                 content=content,
-                thumbnail_image=thumbnail_image,
                 modifyDate=timezone.now()
             )
 
-            # 이걸 해야 이미지 저장이 되는데 왜 이렇게 해야되는진 모르겠음..
-            board = Board.objects.get(id=board_id)
-            board.thumbnail_image = thumbnail_image
-            board.save()
-
+            if thumbnail_image:
+                board = Board.objects.get(id=board_id)
+                board.thumbnail_image = thumbnail_image
+                board.save()
 
             return redirect(f"/board/{board_id}")
         else:
@@ -83,6 +81,8 @@ def save_board(request):
             )
 
             return redirect(f"/board/{board.id}")
+
+    return redirect("/")
 
 def remove_board(request, board_id):
     board = Board.objects.get(id=board_id)
