@@ -9,23 +9,17 @@ class SignUpForm(forms.ModelForm):
             "password_confirm",
             "email",
             "first_name",
-            "last_name"
-        }
-        labels = {
-            "username" : "아이디",
-            "password" : "비밀번호",
-            "password_confirm" : "비밀번호 확인",
-            "email" : "이메일",
-            "last_name" : "성",
-            "first_name" : "이름"
+            "last_name",
+            "nickname"
         }
         widgets = {
             "username" : forms.TextInput(attrs={'class': 'form-control'}),
             "password" : forms.PasswordInput(attrs={'class': 'form-control'}),
             "password_confirm" : forms.PasswordInput(attrs={'class': 'form-control'}),
             "email" : forms.EmailInput(attrs={'class': 'form-control'}),
-            "last_name" : forms.TextInput(attrs={'class': 'form-control', 'placeholder': '성'}),
-            "first_name" : forms.TextInput(attrs={'class': 'form-control', 'placeholder': '이름'})
+            "last_name" : forms.TextInput(attrs={'class': 'form-control'}),
+            "first_name" : forms.TextInput(attrs={'class': 'form-control'}),
+            "nickname" : forms.TextInput(attrs={'class': 'form-control'}),
         }
 
 class LoginForm(forms.ModelForm):

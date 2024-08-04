@@ -12,7 +12,7 @@
                         <h2 class="subheading">{{ board.subTitle }}</h2>
                         <span class="meta">
                             Posted by
-                            <a href="#!">{{ board.user.name }}</a>
+                            <a href="#!">{{ board.user.nickname }}</a>
                             on {{ board.modifyDate | date:'Y-m-d H:i' }}
                         </span>
                     </div>
@@ -28,6 +28,7 @@
                     {{ board.content | linebreaksbr}}
                 </div>
             </div>
+            {% if board.user == request.user %}
             <div class="d-flex flex-row-reverse">
                 <form method="post" action="/board/write/">
                     {% csrf_token %}
@@ -36,6 +37,7 @@
                     <button type="button" class="btn btn-danger" onclick="location.href='/board/remove/{{ board.id }}'">삭제</button>
                 </form>
             </div>
+            {% endif %}
         </div>
     </article>
 </body>

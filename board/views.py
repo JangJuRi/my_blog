@@ -61,12 +61,11 @@ def save_board(request):
 
         return redirect(f"/board/{boardId}")
     except:
-        user = User.objects.get(id=1)
         board = Board.objects.create(
             title=title,
             subTitle=subTitle,
             content=content,
-            user=user
+            user=request.user
         )
 
         return redirect(f"/board/{board.id}")

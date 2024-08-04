@@ -21,15 +21,6 @@
                             <span class="input-group-text">비밀번호 확인</span>
                             {{form.password_confirm}}
                         </div>
-                        {% if form.password_confirm.errors %}
-                        <div>
-                            <ul>
-                                {% for error in form.password_confirm.errors %}
-                                <li>{{ error }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        {% endif %}
                         <div class="input-group mb-3 input-group-lg">
                             <span class="input-group-text">이메일</span>
                             {{form.email}}
@@ -38,6 +29,10 @@
                             <span class="input-group-text">이름</span>
                             {{form.last_name}}
                             {{form.first_name}}
+                        </div>
+                        <div class="input-group mb-3 input-group-lg">
+                            <span class="input-group-text">닉네임</span>
+                            {{form.nickname}}
                         </div>
                         <button type="submit" class="btn btn-light">회원가입</button>
                     </form>

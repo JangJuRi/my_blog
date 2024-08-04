@@ -43,6 +43,7 @@ def signup_page(request):
             email = form.cleaned_data["email"]
             first_name = form.cleaned_data["first_name"]
             last_name = form.cleaned_data["last_name"]
+            nickname = form.cleaned_data["nickname"]
 
             if password != password_confirm:
                 form.add_error("password_confirm", "비밀번호가 일치하지 않습니다.")
@@ -59,9 +60,10 @@ def signup_page(request):
                     password=password,
                     email=email,
                     first_name=first_name,
-                    last_name=last_name
+                    last_name=last_name,
+                    nickname=nickname
                 )
-                return render(request, 'login.html')
+                return redirect("/login")
     else:
         form = SignUpForm()
         return render(request, 'signup.html', {'form': form})
