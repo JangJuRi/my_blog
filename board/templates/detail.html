@@ -28,7 +28,7 @@
                     {{ board.content | linebreaksbr}}
                 </div>
             </div>
-            {% if board.user == request.user %}
+            {% if board.user == request.user or request.user.is_superuser%}
             <div class="d-flex flex-row-reverse">
                 <form method="post" action="/board/write/">
                     {% csrf_token %}

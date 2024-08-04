@@ -3,7 +3,7 @@
 {% block content %}
 <body>
     <!-- Page Header-->
-    <form method="post" action="/board/save/">
+    <form method="post" enctype="multipart/form-data" action="/board/save/">
         {% csrf_token %}
         <input type="hidden" id="boardId" name="boardId" value="{{ board.id }}">
         <header class="masthead" style="background-image: url({% static 'assets/img/cloud.jpg' %})">
@@ -21,6 +21,10 @@
             </div>
         </header>
         <!-- Post Content-->
+        <div>
+            <label for="thumbnail_image">썸네일</label>
+            <input type="file" id="thumbnail_image" name="thumbnail_image">
+        </div>
         <article class="mb-4">
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">

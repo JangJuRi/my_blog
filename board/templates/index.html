@@ -26,26 +26,27 @@
                     <button type="submit" class="btn btn-outline-secondary" onclick="location.href='?searchTitle={{ request.GET.searchTitle }}'" style="padding: 0 10px; height:100%">검색</button>
                 </div>
             </div>
-            <div class="col-md-10 col-lg-8 col-xl-7">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
                 {% for board in boards %}
-                <!-- Post preview-->
-                <div class="post-preview">
+                <div class="col">
                     <a href="/board/{{ board.id }}">
-                        <h2 class="post-title">{{ board.title }}</h2>
-                        <h3 class="post-subtitle">{{ board.subTitle }}</h3>
+                        <div class="card h-100">
+                            <img src="{{ board.thumbnail_image.url }}" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ board.title }}</h5>
+                                <p class="card-text">{{ board.subTitle }}</p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-body-secondary">{{ board.user.nickname }} {{ board.modifyDate | date:'Y-m-d H:i' }}</small>
+                            </div>
+                        </div>
                     </a>
-                    <p class="post-meta">
-                        Posted by
-                        <a href="#!">{{ board.user.nickname }}</a>
-                        on {{ board.modifyDate | date:'Y-m-d H:i' }}
-                    </p>
                 </div>
-                <!-- Divider-->
-                <hr class="my-4" />
-                <!-- Post preview-->
                 {% endfor %}
                 <!-- Pager-->
-                <div class="d-flex justify-content-end mb-4"><a class="btn btn-outline-secondary" href="board/write/">등록 →</a></div>
+            </div>
+            <div class="d-flex justify-content-end mb-4 mt-2">
+                <a class="btn btn-outline-secondary" href="board/write/">등록 →</a>
             </div>
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center pagination-lg">

@@ -3,6 +3,8 @@ import datetime
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.core.paginator import Paginator
+
+from board.form import AddBoardForm
 from board.models import Board
 from users.models import User
 
@@ -46,29 +48,35 @@ def board_write(request):
         return render(request, "write.html")
 
 def save_board(request):
-    title = request.POST["title"]
-    subTitle = request.POST["subTitle"]
-    content = request.POST["content"]
+    form = AddBoardForm(request.POST, request.FILES)
 
-    try:
-        boardId = request.POST["boardId"]
-        Board.objects.filter(id=boardId).update(
-            title=title,
-            subTitle=subTitle,
-            content=content,
-            modifyDate=timezone.now()
-        )
+    if form.is_valid():
+        title = form.cleaned_data["title"]
+        subTitle = form.cleaned_data["subTitle"]
+        content = form.cleaned_data["content"]
+        thumbnail_image = form.cleaned_data["thumbnail_image"]
 
-        return redirect(f"/board/{boardId}")
-    except:
-        board = Board.objects.create(
-            title=title,
-            subTitle=subTitle,
-            content=content,
-            user=request.user
-        )
+        try:
+            boardId = request.POST["boardId"]
+            Board.objects.filter(id=boardId).update(
+                title=title,
+                subTitle=subTitle,
+                content=content,
+                thumbnail_image=thumbnail_image,
+                modifyDate=timezone.now()
+            )
 
-        return redirect(f"/board/{board.id}")
+            return redirect(f"/board/{boardId}")
+        except:
+            board = Board.objects.create(
+                title=title,
+                subTitle=subTitle,
+                content=content,
+                thumbnail_image=thumbnail_image,
+                user=request.user
+            )
+
+            return redirect(f"/board/{board.id}")
 
 def remove_board(request, board_id):
     board = Board.objects.get(id=board_id)

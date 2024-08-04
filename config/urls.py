@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 from board.views import board_list, board_detail, board_write, save_board, remove_board
 from users.views import login_page, logout_view, signup_page
 
@@ -30,3 +32,8 @@ urlpatterns = [
     path('logout/', logout_view),
     path('signup/', signup_page)
 ]
+
+urlpatterns += static (
+    prefix=settings.MEDIA_URL,
+    document_root=settings.MEDIA_ROOT
+)

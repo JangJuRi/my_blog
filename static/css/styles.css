@@ -4179,6 +4179,11 @@ textarea.form-control-lg {
   width: 100%;
 }
 
+.card-img-top {
+  height: 15rem;
+  object-fit: cover;
+}
+
 .card-group > .card {
   margin-bottom: var(--bs-card-group-margin);
 }
