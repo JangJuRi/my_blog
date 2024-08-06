@@ -13,3 +13,15 @@ class Board(models.Model):
     user = models.ForeignKey (
         User, verbose_name="등록자", on_delete=models.CASCADE
     )
+
+class Comment(models.Model):
+    content = models.CharField(max_length=4000)
+    upper_content_id = models.IntegerField(default=0)
+    regist_date = models.DateTimeField(auto_now_add=True)
+    modify_date = models.DateTimeField(auto_now=True)
+    board = models.ForeignKey (
+        Board, verbose_name="게시글", on_delete=models.CASCADE
+    )
+    user = models.ForeignKey (
+        User, verbose_name="등록자", on_delete=models.CASCADE
+    )

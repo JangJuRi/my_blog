@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from board.views import board_list, board_detail, board_write, save_board, remove_board
+from board.views import board_list, board_detail, board_write, save_board, remove_board, save_comment, remove_comment
 from users.views import login_page, logout_view, signup_page
 
 urlpatterns = [
@@ -30,7 +30,9 @@ urlpatterns = [
     path('board/remove/<int:board_id>/', remove_board),
     path('login/', login_page),
     path('logout/', logout_view),
-    path('signup/', signup_page)
+    path('signup/', signup_page),
+    path('comment/save', save_comment),
+    path('comment/remove', remove_comment)
 ]
 
 urlpatterns += static (

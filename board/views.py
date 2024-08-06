@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.core.paginator import Paginator
 
 from board.form import AddBoardForm
-from board.models import Board
+from board.models import Board, Comment
 from users.models import User
 
 def board_list(request):
@@ -29,9 +29,11 @@ def board_list(request):
 
 def board_detail(request, board_id):
     board = Board.objects.get(id=board_id)
+    comments = Comment.objects.filter(board=board).order_by("id")
 
     context = {
-        "board": board
+        "board": board,
+        "comments": comments
     }
     return render(request, "detail.html", context)
 
@@ -86,6 +88,39 @@ def save_board(request):
 
 def remove_board(request, board_id):
     board = Board.objects.get(id=board_id)
-    board.delete();
+    board.delete()
 
     return redirect("/")
+
+def save_comment(request):
+    board_id = request.POST["boardId"]
+    comment_id = request.POST.get("commentId", False)
+    print("-------------------------------")
+    print(comment_id)
+    content = request.POST["content"]
+
+    if comment_id:
+        Comment.objects.filter(id=comment_id).update(
+            content=content,
+            modify_date=timezone.now()
+        )
+
+    else:
+        Comment.objects.create (
+            content=content,
+            regist_date=timezone.now(),
+            modify_date=timezone.now(),
+            board=Board.objects.get(id=board_id),
+            user=request.user
+        )
+
+    return redirect(f"/board/{board_id}")
+
+def remove_comment(request):
+    board_id = request.POST["boardId"]
+    comment_id = request.POST.get("commentId")
+
+    comment = Comment.objects.get(id=comment_id)
+    comment.delete()
+
+    return redirect(f"/board/{board_id}")

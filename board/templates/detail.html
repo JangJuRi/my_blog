@@ -1,6 +1,42 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<script type="text/javascript">
+    function editComment(commentId, content) {
+        var commentDiv = document.getElementById("comment-" + commentId);
+        var contentDiv = commentDiv.querySelector(".content");
+        var editForm = commentDiv.querySelectorAll(".edit-form");
+        var viewForm = commentDiv.querySelector(".view-form");
+
+        contentDiv.style.display = "none";
+        viewForm.style.display = "none";
+        editForm.forEach(function(element) {
+            element.style.display = "block";
+        });
+
+        var textarea = document.querySelector(".edit-form textarea");
+        textarea.value = content;
+    }
+
+    function cancelEdit(commentId) {
+        var commentDiv = document.getElementById("comment-" + commentId);
+        var contentDiv = commentDiv.querySelector(".content");
+        var editForm = commentDiv.querySelectorAll(".edit-form");
+        var viewForm = commentDiv.querySelector(".view-form");
+
+        contentDiv.style.display = "block";
+        viewForm.style.display = "block";
+        editForm.forEach(function(element) {
+            element.style.display = "none";
+        });
+    }
+
+    function setFormAction(actionUrl, commentId) {
+        var form = document.getElementById('commentForm-' + commentId);
+        form.action = actionUrl;
+        form.submit();
+    }
+</script>
 <body>
     <!-- Page Header-->
     <header class="masthead" style="background-image: url({{ board.thumbnail_image.url }})">
@@ -38,6 +74,53 @@
                 </form>
             </div>
             {% endif %}
+            <div class="card my-4">
+                <h5 class="card-header">댓글 등록</h5>
+                <div class="card-body">
+                    <form method="post" action="/comment/save">
+                        {% csrf_token %}
+                        <input type="hidden" name="boardId" value="{{ board.id }}">
+                        <div class="form-group">
+                            <textarea name="content" class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="d-flex flex-row-reverse">
+                            <button type="submit" class="btn btn-secondary mt-3">등록</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {% for comment in comments %}
+            <form method="post" id="commentForm-{{ comment.id }}">
+                {% csrf_token %}
+                <input type="hidden" name="boardId" value="{{ board.id }}">
+                <input type="hidden" name="commentId" value="{{ comment.id }}">
+
+                <div class="media mb-4" id="comment-{{ comment.id }}">
+                    <img class="d-flex mr-3 rounded-circle">
+                    <div class="media-body">
+                        <h5 class="mt-0">{{ comment.user.nickname }}</h5>
+                        <div class="content">
+                            {{ comment.content }}
+                        </div>
+                        <div class="edit-form" style="display: none;">
+                            <textarea name="content" class="form-control" rows="3">{{ comment.content }}</textarea>
+                        </div>
+                    </div>
+                    {% if comment.user == request.user or request.user.is_superuser%}
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <div class="view-form">
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="editComment({{ comment.id }}, '{{ comment.content|escapejs }}')">수정</button>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="setFormAction('/comment/remove', {{ comment.id }})">삭제</button>
+                        </div>
+                        <div class="edit-form" style="display: none;">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="setFormAction('/comment/save', {{ comment.id }})">저장</button>
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="cancelEdit({{ comment.id }})">취소</button>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </form>
+            {% endfor %}
         </div>
     </article>
 </body>
