@@ -23,7 +23,11 @@
                 <div class="col">
                     <a href="/board/{{ board.id }}">
                         <div class="card h-100">
-                            <img src="{{ board.thumbnail_image.url }}" class="card-img-top">
+                            {% if board.thumbnail_image %}
+                                <img src="{{ board.thumbnail_image.url }}" class="card-img-top">
+                            {% else %}
+                                <img src="{% static 'assets/img/cloud.jpg' %}" class="card-img-top">
+                            {% endif %}
                             <div class="card-body">
                                 <h5 class="card-title">{{ board.title }}</h5>
                                 <p class="card-text">{{ board.subTitle }}</p>
@@ -37,9 +41,11 @@
                 {% endfor %}
                 <!-- Pager-->
             </div>
+            {% if request.user.is_authenticated %}
             <div class="d-flex justify-content-end mb-4 mt-4">
                 <a class="btn btn-outline-secondary rounded" href="board/write/">등록</a>
             </div>
+            {% endif %}
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center pagination-lg">
                     <li class="page-item">

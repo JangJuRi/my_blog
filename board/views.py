@@ -6,7 +6,6 @@ from django.core.paginator import Paginator
 
 from board.form import AddBoardForm
 from board.models import Board, Comment
-from users.models import User
 
 def board_list(request):
     search_title = request.GET.get('searchTitle')
@@ -28,25 +27,33 @@ def board_list(request):
     return render(request, "index.html", context)
 
 def board_detail(request, board_id):
-    board = Board.objects.get(id=board_id)
-    comments = Comment.objects.filter(board=board).order_by("id")
+    is_exist = Board.objects.filter(id=board_id).exists()
 
-    context = {
-        "board": board,
-        "comments": comments
-    }
-    return render(request, "detail.html", context)
+    if is_exist:
+        board = Board.objects.get(id=board_id)
+        comments = Comment.objects.filter(board=board).order_by("id")
+
+        context = {
+            "board": board,
+            "comments": comments
+        }
+
+        return render(request, "detail.html", context)
+
+    else:
+        return render(request, "error.html", {"error_message":"존재하지 않는 게시글입니다."})
 
 def board_write(request):
-    try:
-        board = Board.objects.get(id=request.POST["boardId"])
+    board_id = request.POST.get("boardId", False)
+    if board_id:
+        board = Board.objects.get(id=board_id)
         context = {
             "board": board
         }
 
         return render(request, "write.html", context)
 
-    except:
+    else:
         return render(request, "write.html")
 
 def save_board(request):
@@ -84,7 +91,26 @@ def save_board(request):
 
             return redirect(f"/board/{board.id}")
 
-    return redirect("/")
+    else:
+        error_messages = []
+        for field, errors in form.errors.items():
+            if errors:
+                label = form.fields[field].label
+                error_messages.append(f"{label}: {errors[0]}")
+                break
+
+        board = {
+            "title": request.POST["title"],
+            "subTitle": request.POST["subTitle"],
+            "content": request.POST["content"],
+            "error_messages": error_messages,
+        }
+
+        context = {
+            "board": board
+        }
+
+        return render(request, "write.html", context)
 
 def remove_board(request, board_id):
     board = Board.objects.get(id=board_id)

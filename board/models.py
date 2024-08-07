@@ -3,8 +3,8 @@ from django.db import models
 from users.models import User
 
 class Board(models.Model):
-    title = models.CharField(max_length=20)
-    subTitle = models.CharField(max_length=20, null=True)
+    title = models.CharField(max_length=40)
+    subTitle = models.CharField(max_length=60, null=True)
     content = models.CharField(max_length=4000)
     views = models.IntegerField(default=0)
     thumbnail_image = models.ImageField(upload_to="board/thumbnail", null=True, blank=True)

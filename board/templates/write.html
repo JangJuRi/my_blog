@@ -6,11 +6,16 @@
     <form method="post" enctype="multipart/form-data" action="/board/save/">
         {% csrf_token %}
         <input type="hidden" id="boardId" name="boardId" value="{{ board.id }}">
-        {% if board.id %}
+    {% if board.thumbnail_image %}
         <header id="masthead" class="masthead" style="background-image: url({{ board.thumbnail_image.url }});">
-        {% else %}
+    {% else %}
         <header id="masthead" class="masthead" style="background-image: url({% static 'assets/img/cloud.jpg' %});">
-        {% endif %}
+    {% endif %}
+            {% for message in board.error_messages %}
+            <div class="position-absolute top-20 start-50 translate-middle alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
             <div class="container position-relative px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
@@ -32,6 +37,7 @@
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
+                        {{ board.thumbnail_image }}
                         <textarea id="content" name="content" class="write-textarea no-outline" placeholder="내용을 입력해주세요">{{ board.content }}</textarea>
                     </div>
                 </div>
