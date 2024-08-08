@@ -31,7 +31,7 @@ def board_detail(request, board_id):
 
     if is_exist:
         board = Board.objects.get(id=board_id)
-        comments = Comment.objects.filter(board=board).order_by("id")
+        comments = Comment.objects.filter(board=board).order_by("upper_comment", "id")
 
         context = {
             "board": board,
@@ -121,8 +121,7 @@ def remove_board(request, board_id):
 def save_comment(request):
     board_id = request.POST["boardId"]
     comment_id = request.POST.get("commentId", False)
-    print("-------------------------------")
-    print(comment_id)
+    upper_comment_id = request.POST.get("upperCommentId", comment_id)
     content = request.POST["content"]
 
     if comment_id:
@@ -132,13 +131,21 @@ def save_comment(request):
         )
 
     else:
-        Comment.objects.create (
+        comment = Comment.objects.create (
             content=content,
             regist_date=timezone.now(),
             modify_date=timezone.now(),
             board=Board.objects.get(id=board_id),
             user=request.user
         )
+
+        if comment_id != upper_comment_id:
+            comment.root_yn = "N"
+            comment.upper_comment = Comment.objects.get(id=upper_comment_id)
+            comment.save()
+        else:
+            comment.upper_comment = comment
+            comment.save()
 
     return redirect(f"/board/{board_id}")
 

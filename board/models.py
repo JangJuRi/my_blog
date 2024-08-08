@@ -16,7 +16,7 @@ class Board(models.Model):
 
 class Comment(models.Model):
     content = models.CharField(max_length=4000)
-    upper_content_id = models.IntegerField(default=0)
+    root_yn = models.CharField(max_length=1, default="Y")
     regist_date = models.DateTimeField(auto_now_add=True)
     modify_date = models.DateTimeField(auto_now=True)
     board = models.ForeignKey (
@@ -24,4 +24,7 @@ class Comment(models.Model):
     )
     user = models.ForeignKey (
         User, verbose_name="등록자", on_delete=models.CASCADE
+    )
+    upper_comment = models.ForeignKey (
+        'self', verbose_name="답글", on_delete=models.CASCADE, null=True, blank=True
     )
