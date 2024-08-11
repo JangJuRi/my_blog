@@ -89,7 +89,7 @@ def save_board(request):
                 user=request.user
             )
 
-            return redirect("board:board_detail", board_id)
+            return redirect("board:board_detail", board.id)
 
     else:
         error_messages = []

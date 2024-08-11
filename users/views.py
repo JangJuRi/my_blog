@@ -1,6 +1,8 @@
 from django.contrib.auth import authenticate, login, logout
+from django.db.models import Count
 from django.shortcuts import render, redirect
 
+from board.models import Board, Comment
 from users.form import LoginForm, SignUpForm
 from users.models import User
 
@@ -67,3 +69,14 @@ def signup_page(request):
     else:
         form = SignUpForm()
         return render(request, 'signup.html', {'form': form})
+
+def my_page(request):
+    user = User.objects.get(id=request.user.id)
+
+    context = {
+        "user": user,
+        "post_count": Board.objects.filter(user=request.user).aggregate(total_posts=Count('id'))['total_posts'],
+        "comment_count": Comment.objects.filter(user=request.user).aggregate(total_comments=Count('id'))['total_comments']
+    }
+
+    return render(request, 'mypage.html', context)
