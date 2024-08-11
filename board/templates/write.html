@@ -3,7 +3,7 @@
 {% block content %}
 <body>
     <!-- Page Header-->
-    <form method="post" enctype="multipart/form-data" action="/board/save/">
+    <form method="post" enctype="multipart/form-data" action="{% url 'board:save_board' %}">
         {% csrf_token %}
         <input type="hidden" id="boardId" name="boardId" value="{{ board.id }}">
     {% if board.thumbnail_image %}

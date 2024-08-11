@@ -79,7 +79,7 @@ def save_board(request):
                 board.thumbnail_image = thumbnail_image
                 board.save()
 
-            return redirect(f"/board/{board_id}")
+            return redirect("board:board_detail", board_id)
         else:
             board = Board.objects.create(
                 title=title,
@@ -89,7 +89,7 @@ def save_board(request):
                 user=request.user
             )
 
-            return redirect(f"/board/{board.id}")
+            return redirect("board:board_detail", board_id)
 
     else:
         error_messages = []
@@ -147,7 +147,7 @@ def save_comment(request):
             comment.upper_comment = comment
             comment.save()
 
-    return redirect(f"/board/{board_id}")
+    return redirect("board:board_detail", board_id)
 
 def remove_comment(request):
     board_id = request.POST["boardId"]
@@ -156,4 +156,4 @@ def remove_comment(request):
     comment = Comment.objects.get(id=comment_id)
     comment.delete()
 
-    return redirect(f"/board/{board_id}")
+    return redirect("board:board_detail", board_id)

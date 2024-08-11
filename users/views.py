@@ -63,7 +63,7 @@ def signup_page(request):
                     last_name=last_name,
                     nickname=nickname
                 )
-                return redirect("/login")
+                return redirect("users:login")
     else:
         form = SignUpForm()
         return render(request, 'signup.html', {'form': form})

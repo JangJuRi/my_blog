@@ -88,11 +88,11 @@
             </div>
             {% if board.user == request.user or request.user.is_superuser%}
             <div class="d-flex flex-row-reverse">
-                <form method="post" action="/board/write/">
+                <form method="post" action="{% url 'board:board_write' %}">
                     {% csrf_token %}
                     <input type="hidden" id="boardId" name="boardId" value="{{ board.id }}">
                     <button type="submit" class="btn btn-secondary">수정</button>
-                    <button type="button" class="btn btn-danger" onclick="location.href='/board/remove/{{ board.id }}'">삭제</button>
+                    <button type="button" class="btn btn-danger" onclick="location.href='{% url 'board:remove_board' board_id=board.id %}'">삭제</button>
                 </form>
             </div>
             {% endif %}
@@ -101,7 +101,7 @@
             <div class="card my-4">
                 <h5 class="card-header">댓글 등록</h5>
                 <div class="card-body">
-                    <form method="post" action="/comment/save">
+                    <form method="post" action="{% url 'board:save_comment' %}">
                         {% csrf_token %}
                         <input type="hidden" name="boardId" value="{{ board.id }}">
                         <div class="form-group">
@@ -149,10 +149,10 @@
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                                 <div class="view-form">
                                     <button type="button" class="btn btn-secondary btn-sm" onclick="editComment({{ comment.id }}, '{{ comment.content|escapejs }}')">수정</button>
-                                    <button type="button" class="btn btn-danger btn-sm" onclick="setFormAction('/comment/remove', {{ comment.id }})">삭제</button>
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="setFormAction('{% url 'board:remove_comment' %}', {{ comment.id }})">삭제</button>
                                 </div>
                                 <div class="edit-form" style="display: none;">
-                                    <button type="button" class="btn btn-primary btn-sm" onclick="setFormAction('/comment/save', {{ comment.id }})">저장</button>
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="setFormAction('{% url 'board:save_comment' %}', {{ comment.id }})">저장</button>
                                     <button type="button" class="btn btn-secondary btn-sm" onclick="cancelEdit({{ comment.id }})">취소</button>
                                 </div>
                             </div>
@@ -163,7 +163,7 @@
                     <div class="card my-4" id="ReplyCommentForm-{{ comment.id }}" style="display: none;">
                         <h5 class="card-header">답글 등록</h5>
                         <div class="card-body">
-                            <form method="post" action="/comment/save">
+                            <form method="post" action="{% url 'board:save_comment' %}">
                                 {% csrf_token %}
                                 <input type="hidden" name="boardId" value="{{ board.id }}">
                                 <input type="hidden" name="upperCommentId" value="{{ comment.id }}">
