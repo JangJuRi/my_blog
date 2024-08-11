@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.core.paginator import Paginator
 from django.db.models import Count
 from django.shortcuts import render, redirect
 
@@ -71,12 +72,17 @@ def signup_page(request):
         return render(request, 'signup.html', {'form': form})
 
 def my_page(request):
-    user = User.objects.get(id=request.user.id)
+    page_count = 6
+    boards = Board.objects.filter(user=request.user).order_by("-id")
+    paginator = Paginator(boards, page_count)
+    page = request.GET.get('page', 1)
+    paginated_boards = paginator.get_page(page)
 
     context = {
-        "user": user,
+        "user": User.objects.get(id=request.user.id),
         "post_count": Board.objects.filter(user=request.user).aggregate(total_posts=Count('id'))['total_posts'],
-        "comment_count": Comment.objects.filter(user=request.user).aggregate(total_comments=Count('id'))['total_comments']
+        "comment_count": Comment.objects.filter(user=request.user).aggregate(total_comments=Count('id'))['total_comments'],
+        "boards": paginated_boards
     }
 
     return render(request, 'mypage.html', context)

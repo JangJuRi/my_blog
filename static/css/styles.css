@@ -10648,7 +10648,7 @@ blockquote {
 }
 @media (min-width: 992px) {
   #mainNav {
-    transition: background-color 0.2s;
+    /*transition: background-color 0.2s;*/
     /* Force Hardware Acceleration in WebKit */
     transform: translate3d(0, 0, 0);
     -webkit-backface-visibility: hidden;
@@ -10658,9 +10658,9 @@ blockquote {
     /* when the user scrolls down, we hide the header right above the viewport */
     position: fixed;
     top: -83px;
-    transition: transform 0.2s;
-    border-bottom: 1px solid white;
-    background-color: rgba(255, 255, 255, 0.9);
+    transition: transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    background-color: rgba(255, 255, 255, 0.4);
   }
   #mainNav.is-fixed .navbar-brand {
     color: #212529;

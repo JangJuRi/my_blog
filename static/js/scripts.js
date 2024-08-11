@@ -11,17 +11,15 @@ window.addEventListener('DOMContentLoaded', () => {
         const currentTop = document.body.getBoundingClientRect().top * -1;
         if ( currentTop < scrollPos) {
             // Scrolling Up
-            if (currentTop > 0 && mainNav.classList.contains('is-fixed')) {
-                mainNav.classList.add('is-visible');
-            } else {
-                console.log(123);
-                mainNav.classList.remove('is-visible', 'is-fixed');
-            }
+            mainNav.classList.remove('is-visible');
+            setTimeout(() => {
+                mainNav.classList.remove('is-fixed');
+            }, 200);
         } else {
             // Scrolling Down
-            mainNav.classList.remove(['is-visible']);
-            if (currentTop > headerHeight && !mainNav.classList.contains('is-fixed')) {
+            if (currentTop > headerHeight) {
                 mainNav.classList.add('is-fixed');
+                mainNav.classList.add('is-visible');
             }
         }
         scrollPos = currentTop;
