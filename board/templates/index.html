@@ -21,8 +21,8 @@
             <div class="row row-cols-1 row-cols-md-3 g-4">
                 {% for board in boards %}
                 <div class="col">
-                    <a href="{% url 'board:board_detail' board_id=board.id %}">
-                        <div class="card h-100">
+                    <div class="card h-100">
+                        <a href="{% url 'board:board_detail' board_id=board.id %}">
                             {% if board.thumbnail_image %}
                                 <img src="{{ board.thumbnail_image.url }}" class="card-img-top">
                             {% else %}
@@ -32,11 +32,19 @@
                                 <h5 class="card-title">{{ board.title }}</h5>
                                 <p class="card-text">{{ board.subTitle }}</p>
                             </div>
-                            <div class="card-footer">
-                                <small class="text-body-secondary">{{ board.user.nickname }} {{ board.modifyDate | date:'Y-m-d H:i' }}</small>
+                        </a>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <a href="{% url 'users:mypage' username=board.user.username %}">
+                                        <img src="{{ board.user.profile_image.url }}" class="me-3 rounded-circle img-fluid" style="width: 50px; height: 50px; object-fit: cover;">
+                                        <small class="text-body-secondary">{{ board.user.nickname }}</small>
+                                    </a>
+                                </div>
+                                <small class="text-body-secondary">{{ board.modifyDate | date:'Y-m-d H:i' }}</small>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 </div>
                 {% endfor %}
                 <!-- Pager-->

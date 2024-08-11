@@ -1,6 +1,32 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<script type="text/javascript">
+    function profileEditClick() {
+        if ("{{request.user.id}}" === "{{user.id}}") {
+            document.querySelector('[id=profile_image]').click();
+        }
+    }
+
+    function editProfileImage() {
+        var form = document.getElementById('modifyImageForm');
+        form.submit();
+    }
+
+    function showEditForm() {
+        var editForm = document.querySelectorAll(".edit-form");
+        var viewForm = document.querySelectorAll(".view-form");
+
+        viewForm.forEach(function(element) {
+            element.style.display = "none";
+        });
+
+        editForm.forEach(function(element) {
+            element.style.display = "block";
+        });
+    }
+</script>
+
 <body>
     <header id="masthead" class="masthead vh-100" style="background-image: url({% static 'assets/img/cloud.jpg' %});">
         <div class="container position-relative px-4 px-lg-5">
@@ -9,10 +35,14 @@
                     <div class="card text-center shadow-lg">
                         <!-- 프로필 이미지 -->
                         <div class="card-body position-relative">
+                            <form method="post" id="modifyImageForm" enctype="multipart/form-data" action="{% url 'users:modify_profile_image' %}">
+                                {% csrf_token %}
+                                <input type="file" onchange="editProfileImage()" id="profile_image" name="profile_image" style="display:none;">
+                            </form>
                             {% if user.profile_image %}
-                            <img src="{{ user.profile_image.url }}" alt="User Image" class="rounded-circle border border-white position-absolute top-0 translate-middle" style="width: 120px; height: 120px; left: 50%; object-fit: cover; transform: translate(-50%, -50%);" width="120" height="120">
+                            <img src="{{ user.profile_image.url }}" onclick="profileEditClick()" class="rounded-circle border border-white position-absolute top-0 translate-middle pointer" style="width: 120px; height: 120px; left: 50%; object-fit: cover; transform: translate(-50%, -50%);" width="120" height="120">
                             {% else %}
-                            <img src="{% static 'assets/img/cloud.jpg' %}" alt="User Image" class="rounded-circle border border-white position-absolute top-0 translate-middle" style="width: 120px; height: 120px; left: 50%; object-fit: cover; transform: translate(-50%, -50%);" width="120" height="120">
+                            <img src="{% static 'assets/img/cloud.jpg' %}" class="rounded-circle border border-white position-absolute top-0 translate-middle pointer" style="width: 120px; height: 120px; left: 50%; object-fit: cover; transform: translate(-50%, -50%);" width="120" height="120">
                             {% endif %}
                             <!-- 통계 정보 -->
                             <div class="d-flex justify-content-around mt-5 pt-5">
@@ -30,16 +60,28 @@
                                 </div>
                             </div>
                             <!-- 사용자 정보 -->
-                            <div class="mt-4">
-                                <h4>{{ user.nickname }}</h4>
-                                <p class="text-muted mb-1">{{ user.blog_title }}</p>
-                                <p>{{ user.blog_introduce }}</p>
-                            </div>
-                            <!-- 버튼 -->
-                            <div class="d-flex justify-content-around mt-3">
-                                <button class="btn btn-primary">Connect</button>
-                                <button class="btn btn-outline-secondary">Message</button>
-                            </div>
+                            <form method="post" action="{% url 'users:modify_profile' %}">
+                                {% csrf_token %}
+                                <div class="mt-4">
+                                    <div class="view-form">
+                                        <h4>{{ user.nickname }}</h4>
+                                        <p class="text-muted mb-1">{{ user.blog_title }}</p>
+                                        <p>{{ user.blog_introduce }}</p>
+                                    </div>
+                                    <div class="edit-form" style="display:none;">
+                                        {{form.nickname}}
+                                        {{form.blog_title}}
+                                        {{form.blog_introduce}}
+                                    </div>
+                                </div>
+                                <!-- 버튼 -->
+                                {% if user == request.user %}
+                                <div class="d-flex justify-content-around mt-3">
+                                    <button type="button" onclick="showEditForm()" class="btn btn-primary view-form">수정</button>
+                                    <button type="submit" class="btn btn-primary edit-form" style="display:none;">저장</button>
+                                </div>
+                                {% endif %}
+                            </form>
                         </div>
                     </div>
                 </div>

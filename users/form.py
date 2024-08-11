@@ -37,3 +37,17 @@ class LoginForm(forms.ModelForm):
             "username" : forms.TextInput(attrs={'class': 'form-control'}),
             "password" : forms.PasswordInput(attrs={'class': 'form-control'}),
         }
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = {
+            "nickname",
+            "blog_title",
+            "blog_introduce",
+        }
+        widgets = {
+            "nickname": forms.TextInput(attrs={'class': 'form-control mb-3', 'placeholder': '닉네임을 입력해주세요.'}),
+            "blog_title": forms.TextInput(attrs={'class': 'form-control mb-3', 'placeholder': '블로그명을 입력해주세요.'}),
+            "blog_introduce": forms.TextInput(attrs={'class': 'form-control', 'placeholder': '블로그 소개를 입력해주세요.'}),
+        }

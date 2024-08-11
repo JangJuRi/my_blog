@@ -4,7 +4,7 @@ from django.db.models import Count
 from django.shortcuts import render, redirect
 
 from board.models import Board, Comment
-from users.form import LoginForm, SignUpForm
+from users.form import LoginForm, SignUpForm, ProfileForm
 from users.models import User
 
 def login_page(request):
@@ -84,7 +84,33 @@ def my_page(request, username):
         "user": user,
         "post_count": Board.objects.filter(user=user).aggregate(total_posts=Count('id'))['total_posts'],
         "comment_count": Comment.objects.filter(user=user).aggregate(total_comments=Count('id'))['total_comments'],
-        "boards": paginated_boards
+        "boards": paginated_boards,
+        "form": ProfileForm(initial={'nickname': user.nickname, 'blog_title': user.blog_title, 'blog_introduce': user.blog_introduce})
     }
 
     return render(request, 'mypage.html', context)
+
+def modify_profile_image(request):
+    profile_image = request.FILES["profile_image"]
+
+    user = User.objects.get(id=request.user.id)
+    user.profile_image = profile_image
+    user.save()
+
+    return redirect("users:mypage", request.user.username)
+
+def modify_profile(request):
+    form = ProfileForm(request.POST)
+
+    if form.is_valid():
+        nickname = form.cleaned_data["nickname"]
+        blog_title = form.cleaned_data["blog_title"]
+        blog_introduce = form.cleaned_data["blog_introduce"]
+
+        User.objects.filter(id=request.user.id).update(
+            nickname=nickname,
+            blog_title=blog_title,
+            blog_introduce=blog_introduce
+        )
+
+        return redirect("users:mypage", request.user.username)

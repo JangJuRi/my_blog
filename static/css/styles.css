@@ -4189,6 +4189,7 @@ textarea.form-control-lg {
 .card-img-top {
   height: 15rem;
   object-fit: cover;
+  border-radius: 20px 20px 0 0;
 }
 
 .card-group > .card {
@@ -10855,4 +10856,7 @@ header.masthead .post-heading .meta a {
 }
 .no-outline:focus {
     outline: none;
+}
+.pointer {
+    cursor: pointer;
 }
