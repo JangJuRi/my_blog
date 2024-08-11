@@ -71,17 +71,19 @@ def signup_page(request):
         form = SignUpForm()
         return render(request, 'signup.html', {'form': form})
 
-def my_page(request):
+def my_page(request, username):
+    user = User.objects.get(username=username)
+    boards = Board.objects.filter(user=user).order_by("-id")
+
     page_count = 6
-    boards = Board.objects.filter(user=request.user).order_by("-id")
     paginator = Paginator(boards, page_count)
     page = request.GET.get('page', 1)
     paginated_boards = paginator.get_page(page)
 
     context = {
-        "user": User.objects.get(id=request.user.id),
-        "post_count": Board.objects.filter(user=request.user).aggregate(total_posts=Count('id'))['total_posts'],
-        "comment_count": Comment.objects.filter(user=request.user).aggregate(total_comments=Count('id'))['total_comments'],
+        "user": user,
+        "post_count": Board.objects.filter(user=user).aggregate(total_posts=Count('id'))['total_posts'],
+        "comment_count": Comment.objects.filter(user=user).aggregate(total_comments=Count('id'))['total_comments'],
         "boards": paginated_boards
     }
 

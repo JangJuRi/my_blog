@@ -84,6 +84,9 @@
 *::after {
   box-sizing: border-box;
 }
+* {
+  font-family: "IBM Plex Sans KR", sans-serif;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   :root {
@@ -115,7 +118,6 @@ hr {
 h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
   margin-top: 0;
   margin-bottom: 0.5rem;
-  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-weight: 800;
   line-height: 1.2;
 }
@@ -6995,6 +6997,9 @@ textarea.form-control-lg {
 .border-opacity-100 {
   --bs-border-opacity: 1;
 }
+.w-5 {
+  width: 5% !important;
+}
 
 .w-25 {
   width: 25% !important;
@@ -7026,6 +7031,10 @@ textarea.form-control-lg {
 
 .min-vw-100 {
   min-width: 100vw !important;
+}
+
+.h-5 {
+  height: 5% !important;
 }
 
 .h-25 {
@@ -10611,7 +10620,6 @@ blockquote {
   z-index: 1030;
   border-bottom: 1px solid #dee2e6;
   background-color: #fff;
-  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 #mainNav .navbar-brand {
   font-weight: 800;
@@ -10726,7 +10734,6 @@ header.masthead .site-heading .subheading {
   line-height: 1.1;
   display: block;
   margin-top: 0.625rem;
-  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 header.masthead .post-heading h1, header.masthead .post-heading .h1 {
   font-size: 2.25rem;
@@ -10740,13 +10747,10 @@ header.masthead .post-heading .subheading {
   font-size: 1.5rem;
   font-weight: 600;
   margin: 0.75rem 0 2rem;
-  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 header.masthead .post-heading .meta {
   font-size: 1.25rem;
   font-weight: 300;
-  font-style: italic;
-  font-family: "Lora", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 header.masthead .post-heading .meta a {
   color: #fff;

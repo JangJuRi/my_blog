@@ -5,8 +5,8 @@ app_name="users"
 
 urlpatterns = [
 
-    path('login/', login_page, name="login"),
-    path('logout/', logout_view, name="logout"),
-    path('signup/', signup_page, name="signup"),
-    path('mypage/', my_page, name="mypage"),
+    path('login', login_page, name="login"),
+    path('logout', logout_view, name="logout"),
+    path('signup', signup_page, name="signup"),
+    path('mypage/<str:username>', my_page, name="mypage"),
 ]

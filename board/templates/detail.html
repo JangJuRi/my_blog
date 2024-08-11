@@ -69,9 +69,13 @@
                         <h1>{{ board.title }}</h1>
                         <h2 class="subheading">{{ board.subTitle }}</h2>
                         <span class="meta">
-                            Posted by
-                            <a href="#!">{{ board.user.nickname }}</a>
-                            on {{ board.modifyDate | date:'Y-m-d H:i' }}
+                            <a href="{% url 'users:mypage' username=board.user.username %}">
+                                <div class="d-flex align-items-center">
+                                    <img src="{{ board.user.profile_image.url }}" class="me-3 rounded-circle img-fluid" style="width: 50px; height: 50px; object-fit: cover;">
+                                    {{ board.user.nickname }}
+                                    | {{ board.modifyDate | date:'Y-m-d H:i' }}
+                                </div>
+                            </a>
                         </span>
                     </div>
                 </div>
@@ -82,12 +86,12 @@
     <article class="mb-4">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-md-10 col-lg-8 col-xl-7 text-break">
+                <div class="col-md-10 col-lg-8 col-xl-7 text-break" style="min-height:150px;">
                     {{ board.content | linebreaksbr}}
                 </div>
             </div>
             {% if board.user == request.user or request.user.is_superuser%}
-            <div class="d-flex flex-row-reverse">
+            <div class="d-flex flex-row-reverse mt-5">
                 <form method="post" action="{% url 'board:board_write' %}">
                     {% csrf_token %}
                     <input type="hidden" id="boardId" name="boardId" value="{{ board.id }}">
@@ -115,15 +119,22 @@
             </div>
             {% endif %}
             {% for comment in comments %}
-                <div class="media mb-4 {% if comment.root_yn != 'Y' %} ps-5 {% endif %}" id="comment-{{ comment.id }}">
+                <div class="media p-2 border-bottom mb-4 {% if comment.root_yn != 'Y' %} ps-5 {% endif %}" id="comment-{{ comment.id }}">
                     <form method="post" id="commentForm-{{ comment.id }}">
                         {% csrf_token %}
                         <input type="hidden" name="boardId" value="{{ board.id }}">
                         <input type="hidden" name="commentId" value="{{ comment.id }}">
-                        <img class="d-flex mr-3 rounded-circle">
                         <div class="media-body">
-                            <h5 class="mt-0">{{ comment.user.nickname }}</h5>
-                            <div class="content text-break">
+                            <a href="{% url 'users:mypage' username=comment.user.username %}">
+                                <div class="d-flex align-items-center">
+                                    {% if comment.root_yn != "Y" %}
+                                        <i class="bi bi-arrow-return-right"></i>
+                                    {% endif %}
+                                    <img src="{{ comment.user.profile_image.url }}" class="me-3 rounded-circle img-fluid" style="width: 50px; height: 50px; object-fit: cover;">
+                                    <h5 class="mt-0">{{ comment.user.nickname }}</h5>
+                                </div>
+                            </a>
+                            <div class="content text-break mt-2">
                                 {% if comment.root_yn != "Y" %}
                                     <span class="fw-bold text-primary">@{{ comment.upper_comment.user.nickname }}</span>
                                 {% endif %}
