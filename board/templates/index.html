@@ -10,7 +10,7 @@
                 <input type="text" id="searchTitle" name="searchTitle" class="form-control form-control-lg shadow-lg rounded" placeholder="게시글 제목을 입력하세요.">
             </div>
             <div class="col-2">
-                <button type="submit" class="btn btn-outline-light py-3 px-4" onclick="location.href='?searchTitle={{ request.GET.searchTitle }}'">검색</button>
+                <button type="submit" class="btn btn-outline-light py-3 px-4" onclick="location.href='?searchTitle={{ request.GET.searchTitle }}'"><i class="bi bi-search"></i></button>
             </div>
         </div>
     </div>
@@ -47,7 +47,10 @@
                                         <small class="text-body-secondary">{{ board.user.nickname }}</small>
                                     </a>
                                 </div>
-                                <small class="text-body-secondary">{{ board.modifyDate | date:'Y-m-d H:i' }}</small>
+                                <span>
+                                    <i class="bi bi-calendar-event"></i>
+                                    <small class="text-body-secondary">{{ board.modifyDate | date:'Y-m-d H:i' }}</small>
+                                </span>
                             </div>
                         </div>
                     </div>

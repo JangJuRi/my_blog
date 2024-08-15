@@ -15,10 +15,22 @@
                         <li class="nav-item">
                             <a href="{% url 'users:mypage' username=request.user.username %}" class="nav-link px-lg-3 py-3 py-lg-4">{{ request.user.nickname }}님</a>
                         </li>
-                        <li class="nav-item"><button class="btn btn-light btn-sm mt-3" onclick="location.href='{% url 'users:logout' %}'">로그아웃</button></li>
+                        <li class="nav-item">
+                            <a href="{% url 'users:logout' %}" class="nav-link px-lg-3 py-3 py-lg-4">
+                                <i class="bi bi-box-arrow-right btn-sm me-2"></i>로그아웃
+                            </a>
+                        </li>
                     {% else %}
-                        <li class="nav-item"><button class="btn btn-light btn-sm mt-3 me-1" onclick="location.href='{% url 'users:login' %}'">로그인</button></li>
-                        <li class="nav-item"><button class="btn btn-light btn-sm mt-3" onclick="location.href='{% url 'users:signup' %}'">회원가입</button></li>
+                        <li class="nav-item">
+                            <a href="{% url 'users:login' %}" class="nav-link px-lg-3 py-3 py-lg-4">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>로그인
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'users:signup' %}" class="nav-link px-lg-3 py-3 py-lg-4">
+                                <i class="bi bi-person-square me-2"></i>회원가입
+                            </a>
+                        </li>
                     {% endif %}
                 </ul>
             </div>

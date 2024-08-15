@@ -73,7 +73,8 @@
                                 <div class="d-flex align-items-center">
                                     <img src="{{ board.user.profile_image.url }}" class="me-3 rounded-circle img-fluid" style="width: 50px; height: 50px; object-fit: cover;">
                                     {{ board.user.nickname }}
-                                    | {{ board.modifyDate | date:'Y-m-d H:i' }}
+                                    <i class="bi bi-calendar-event ms-3 me-2"></i>
+                                    {{ board.modifyDate | date:'Y-m-d H:i' }}
                                     <i class="bi bi-eye ms-4"></i>
                                     <span class="ms-2">{{ board.views }}</span>
                                 </div>

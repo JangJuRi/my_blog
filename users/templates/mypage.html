@@ -48,7 +48,7 @@
                             <div class="d-flex justify-content-around mt-5 pt-5">
                                 <div class="flex-grow-1 text-center mx-2" style="min-width: 80px; max-width: 150px;">
                                     <h5 class="mb-0">0</h5>
-                                    <small class="text-muted">즐겨찾기</small>
+                                    <small class="text-muted">방문자 수</small>
                                 </div>
                                 <div class="flex-grow-1 text-center mx-2" style="min-width: 80px; max-width: 150px;">
                                     <h5 class="mb-0">{{ post_count }}</h5>
@@ -108,9 +108,18 @@
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title">{{ board.title }}</h5>
+                            <h5 class="card-title d-flex justify-content-between align-items-center">
+                                <span>{{ board.title }}</span>
+                                <span>
+                                    <i class="bi bi-eye"></i>
+                                    <span class="ms-2">{{ board.views }}</span>
+                                </span>
+                            </h5>
                             <p class="card-text">{{ board.subTitle }}</p>
-                            <p class="card-text"><small class="text-body-secondary">{{ board.modifyDate | date:'Y-m-d H:i' }}</small></p>
+                            <p class="card-text">
+                                <i class="bi bi-calendar-event me-2"></i>
+                                <small class="text-body-secondary">{{ board.modifyDate | date:'Y-m-d H:i' }}</small>
+                            </p>
                         </div>
                     </div>
                 </div>
