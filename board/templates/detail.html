@@ -87,7 +87,7 @@
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7 text-break" style="min-height:150px;">
-                    {{ board.content | linebreaksbr}}
+                    {{ board.content | safe}}
                 </div>
             </div>
             {% if board.user == request.user or request.user.is_superuser%}

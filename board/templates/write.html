@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+{{form.media}}
 <body>
     <!-- Page Header-->
     <form method="post" enctype="multipart/form-data" action="{% url 'board:save_board' %}">
@@ -36,9 +37,9 @@
         <article class="mb-4">
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="col-md-10 col-lg-8 w-100">
                         {{ board.thumbnail_image }}
-                        <textarea id="content" name="content" class="write-textarea no-outline" placeholder="내용을 입력해주세요">{{ board.content }}</textarea>
+                        {{form.content}}
                     </div>
                 </div>
                 <input type="file" onchange="readURL(this)" id="thumbnail_image" name="thumbnail_image" style="display:none;">
@@ -50,26 +51,6 @@
     </form>
 
     <script type="text/javascript">
-        <!-- 내용 길이에 맞춰 textarea 높이 변경 -->
-        const DEFAULT_HEIGHT = 30; // textarea 기본 height
-
-        const $textarea = document.querySelector('#content');
-        const $backgroundButton = document.querySelector('#background-button');
-
-        window.onload = function(){
-            setTextareaHeight();
-        }
-
-        $textarea.oninput = (event) => {
-          setTextareaHeight();
-        };
-
-        function setTextareaHeight () {
-            $textarea.style.height = 0;
-            $textarea.style.height = DEFAULT_HEIGHT + $textarea.scrollHeight + 'px';
-        }
-        <!-- // 내용 길이에 맞춰 textarea 높이 변경 -->
-
         <!-- 썸네일 변경 -->
         $backgroundButton.onclick = (event) => {
             document.querySelector('[id=thumbnail_image]').click();

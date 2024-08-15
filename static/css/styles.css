@@ -10860,3 +10860,6 @@ header.masthead .post-heading .meta a {
 .pointer {
     cursor: pointer;
 }
+.django-ckeditor-widget {
+    width: 100% !important;
+}

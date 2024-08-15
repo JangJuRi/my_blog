@@ -25,6 +25,7 @@ urlpatterns = [
     path('', board_list),
     path('users/', include("users.urls")),
     path('board/', include("board.urls")),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
 ]
 
 urlpatterns += static (

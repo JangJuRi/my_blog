@@ -35,7 +35,7 @@ def board_detail(request, board_id):
 
         context = {
             "board": board,
-            "comments": comments
+            "comments": comments,
         }
 
         return render(request, "detail.html", context)
@@ -45,16 +45,20 @@ def board_detail(request, board_id):
 
 def board_write(request):
     board_id = request.POST.get("boardId", False)
+
     if board_id:
         board = Board.objects.get(id=board_id)
+        form = AddBoardForm(instance=board)
         context = {
-            "board": board
+            "board": board,
+            "form": form
         }
 
         return render(request, "write.html", context)
 
     else:
-        return render(request, "write.html")
+        form = AddBoardForm(data=request.POST)
+        return render(request, "write.html", {"form": form})
 
 def save_board(request):
     board_id = request.POST["boardId"]
