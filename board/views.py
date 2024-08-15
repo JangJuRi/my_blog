@@ -1,5 +1,6 @@
 import datetime
 
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.core.paginator import Paginator
@@ -33,12 +34,32 @@ def board_detail(request, board_id):
         board = Board.objects.get(id=board_id)
         comments = Comment.objects.filter(board=board).order_by("upper_comment", "id")
 
-        context = {
-            "board": board,
-            "comments": comments,
-        }
+        # 조회수 연속 증가 방지 쿠키 세팅
+        cookie = 'board_view_cookie_' + str(request.user.id) + '_' + str(board_id)
 
-        return render(request, "detail.html", context)
+        if (cookie not in request.COOKIES):
+            board.views = board.views + 1
+            board.save()
+
+            context = {
+                'board': board,
+                "comments": comments
+            }
+
+            response = HttpResponse(render(request, 'detail.html', context))
+            tomorrow = datetime.datetime.replace(datetime.datetime.now(), hour=23, minute=59, second=0)
+            expires = datetime.datetime.strftime(tomorrow, "%a, %d-%b-%Y %H:%M:%S GMT")
+            response.set_cookie(cookie, 'Y', expires=expires)
+
+            return response
+
+        else:
+            context = {
+                "board": board,
+                "comments": comments,
+            }
+
+            return render(request, "detail.html", context)
 
     else:
         return render(request, "error.html", {"error_message":"존재하지 않는 게시글입니다."})
