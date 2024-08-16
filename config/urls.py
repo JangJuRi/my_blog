@@ -25,10 +25,10 @@ urlpatterns = [
     path('', board_list),
     path('users/', include("users.urls")),
     path('board/', include("board.urls")),
-    path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('ckeditor5/', include('django_ckeditor_5.urls')),
 ]
 
 urlpatterns += static (
     prefix=settings.MEDIA_URL,
-    document_root=settings.MEDIA_ROOT
+    document_root=settings.MEDIA_ROOT,
 )
