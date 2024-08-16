@@ -33,6 +33,7 @@ def board_detail(request, board_id):
     if is_exist:
         board = Board.objects.get(id=board_id)
         comments = Comment.objects.filter(board=board).order_by("upper_comment", "id")
+        form = AddBoardForm(instance=board)
 
         # 조회수 연속 증가 방지 쿠키 세팅
         cookie = 'board_view_cookie_' + str(request.user.id) + '_' + str(board_id)
@@ -42,8 +43,9 @@ def board_detail(request, board_id):
             board.save()
 
             context = {
-                'board': board,
-                "comments": comments
+                "board": board,
+                "comments": comments,
+                "form": form
             }
 
             response = HttpResponse(render(request, 'detail.html', context))
@@ -57,6 +59,7 @@ def board_detail(request, board_id):
             context = {
                 "board": board,
                 "comments": comments,
+                "form": form
             }
 
             return render(request, "detail.html", context)

@@ -10863,3 +10863,9 @@ header.masthead .post-heading .meta a {
 .django-ckeditor-widget {
     width: 100% !important;
 }
+#board-detail-body .ck.ck-editor__main>.ck-editor__editable:not(.ck-focused) {
+    border: none;
+}
+#board-detail-body .ck-editor__top {
+    display: none !important;
+}

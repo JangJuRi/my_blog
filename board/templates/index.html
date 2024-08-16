@@ -43,7 +43,11 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="d-flex align-items-center">
                                     <a href="{% url 'users:mypage' username=board.user.username %}">
+                                        {% if board.user.profile_image %}
                                         <img src="{{ board.user.profile_image.url }}" class="me-3 rounded-circle img-fluid" style="width: 50px; height: 50px; object-fit: cover;">
+                                        {% else %}
+                                            <img src="{% static 'assets/img/profile.jpg' %}" class="me-3 rounded-circle img-fluid" style="width: 50px; height: 50px; object-fit: cover;">
+                                        {% endif %}
                                         <small class="text-body-secondary">{{ board.user.nickname }}</small>
                                     </a>
                                 </div>

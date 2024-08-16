@@ -1,7 +1,21 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+{{form.media}}
 <script type="text/javascript">
+    window.onload = function() {
+        window.ClassicEditor
+        .create(document.querySelector('#editor'), {
+            initialData: '{{ board.content|safe }}',
+        })
+        .then(editor => {
+            editor.enableReadOnlyMode("editor");
+        })
+        .catch(error => {ss
+            console.error(error);
+        });
+    }
+
     function editComment(commentId, content) {
         showEditForm(commentId);
 
@@ -55,7 +69,7 @@
         replyCommentDiv.style.display = "none";
     }
 </script>
-<body>
+<body id="board-detail-body">
     <!-- Page Header-->
     {% if board.thumbnail_image %}
         <header id="masthead" class="masthead" style="background-image: url({{ board.thumbnail_image.url }});">
@@ -71,7 +85,11 @@
                         <span class="meta">
                             <a href="{% url 'users:mypage' username=board.user.username %}">
                                 <div class="d-flex align-items-center">
+                                    {% if board.user.profile_image %}
                                     <img src="{{ board.user.profile_image.url }}" class="me-3 rounded-circle img-fluid" style="width: 50px; height: 50px; object-fit: cover;">
+                                    {% else %}
+                                        <img src="{% static 'assets/img/profile.jpg' %}" class="me-3 rounded-circle img-fluid" style="width: 50px; height: 50px; object-fit: cover;">
+                                    {% endif %}
                                     {{ board.user.nickname }}
                                     <i class="bi bi-calendar-event ms-3 me-2"></i>
                                     {{ board.modifyDate | date:'Y-m-d H:i' }}
@@ -89,8 +107,8 @@
     <article class="mb-4">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-md-10 col-lg-8 col-xl-7 text-break" style="min-height:150px;">
-                    {{ board.content | safe}}
+                <div class="col-md-10 col-lg-8 col-xl-7 w-100" style="min-height:150px;">
+                    <div id="editor"></div>
                 </div>
             </div>
             {% if board.user == request.user or request.user.is_superuser%}
@@ -133,7 +151,11 @@
                                     {% if comment.root_yn != "Y" %}
                                         <i class="bi bi-arrow-return-right"></i>
                                     {% endif %}
+                                    {% if comment.user.profile_image %}
                                     <img src="{{ comment.user.profile_image.url }}" class="me-3 rounded-circle img-fluid" style="width: 50px; height: 50px; object-fit: cover;">
+                                    {% else %}
+                                    <img src="{% static 'assets/img/profile.jpg' %}" class="me-3 rounded-circle img-fluid" style="width: 50px; height: 50px; object-fit: cover;">
+                                    {% endif %}
                                     <h5 class="mt-0">{{ comment.user.nickname }}</h5>
                                 </div>
                             </a>
