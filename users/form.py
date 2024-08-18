@@ -1,5 +1,7 @@
 from django import forms
-from users.models import User
+from users.models import User, GuestBook
+
+
 class SignUpForm(forms.ModelForm):
     class Meta:
         model = User
@@ -50,4 +52,14 @@ class ProfileForm(forms.ModelForm):
             "nickname": forms.TextInput(attrs={'class': 'form-control mb-3', 'placeholder': '닉네임을 입력해주세요.'}),
             "blog_title": forms.TextInput(attrs={'class': 'form-control mb-3', 'placeholder': '블로그명을 입력해주세요.'}),
             "blog_introduce": forms.TextInput(attrs={'class': 'form-control', 'placeholder': '블로그 소개를 입력해주세요.'}),
+        }
+
+class GuestBookForm(forms.ModelForm):
+    class Meta:
+        model = GuestBook
+        fields = {
+            "content"
+        }
+        widgets = {
+            "content": forms.TextInput(attrs={'class': 'form-control mb-3', 'placeholder': '방명록을 입력해주세요.'}),
         }

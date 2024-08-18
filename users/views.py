@@ -4,8 +4,9 @@ from django.db.models import Count
 from django.shortcuts import render, redirect
 
 from board.models import Board, Comment
-from users.form import LoginForm, SignUpForm, ProfileForm
-from users.models import User
+from users.form import LoginForm, SignUpForm, ProfileForm, GuestBookForm
+from users.models import User, GuestBook
+
 
 def login_page(request):
     if request.user.is_authenticated:
@@ -74,6 +75,7 @@ def signup_page(request):
 def my_page(request, username):
     user = User.objects.get(username=username)
     boards = Board.objects.filter(user=user).order_by("-id")
+    guest_books = GuestBook.objects.filter(target_user=user)
 
     page_count = 6
     paginator = Paginator(boards, page_count)
@@ -85,7 +87,9 @@ def my_page(request, username):
         "post_count": Board.objects.filter(user=user).aggregate(total_posts=Count('id'))['total_posts'],
         "comment_count": Comment.objects.filter(user=user).aggregate(total_comments=Count('id'))['total_comments'],
         "boards": paginated_boards,
-        "form": ProfileForm(initial={'nickname': user.nickname, 'blog_title': user.blog_title, 'blog_introduce': user.blog_introduce})
+        "form": ProfileForm(initial={'nickname': user.nickname, 'blog_title': user.blog_title, 'blog_introduce': user.blog_introduce}),
+        "guest_books": guest_books,
+        "guest_book_form": GuestBookForm()
     }
 
     return render(request, 'mypage.html', context)
@@ -114,3 +118,18 @@ def modify_profile(request):
         )
 
         return redirect("users:mypage", request.user.username)
+
+def save_guest_book(request):
+    form = GuestBookForm(request.POST)
+
+    if form.is_valid():
+        content = form.cleaned_data["content"]
+        targetUserName = request.POST.get("targetUserName")
+
+        GuestBook.objects.create(
+            target_user = User.objects.get(username=targetUserName),
+            write_user = User.objects.get(id=request.user.id),
+            content = content
+        )
+
+        return redirect("users:mypage", targetUserName)
