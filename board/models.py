@@ -6,7 +6,7 @@ from users.models import User
 class Board(models.Model):
     title = models.CharField(max_length=40)
     subTitle = models.CharField(max_length=60, null=True)
-    content = CKEditor5Field(max_length=4000)
+    content = CKEditor5Field(max_length=4000, null=True, blank=True)
     views = models.IntegerField(default=0)
     thumbnail_image = models.ImageField(upload_to="board/thumbnail", null=True, blank=True)
     registDate = models.DateTimeField(auto_now_add=True)
